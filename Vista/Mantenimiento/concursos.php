@@ -1,3 +1,3 @@
 <?php
-echo "Concurso";
+echo "concurso";
 ?>

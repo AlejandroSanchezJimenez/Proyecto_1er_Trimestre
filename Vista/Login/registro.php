@@ -1,19 +1,39 @@
 <?php
 if (isset($_POST["regis"])) {
-    $nombre=$_POST["nombre"];
-    $ape1=$_POST["apellido1"];
-    $ape2=$_POST["apellido2"];
-    $pais=$_POST["pais"];
-    $correo_electronico=$_POST["correo_electronico"];
-    $latitud=$_POST["latitud"];
-    $longitud=$_POST["longitud"];
-    $contraseña=$_POST["contraseña"];
-    $confi_contraseña=$_POST["confi_contraseña"];
-    if ($contraseña!=$confi_contraseña) {
-        header("Location: ?menu=error&&error=0");
-    }
-    if (empty($nombre)||empty($ape1)||empty($correo_electronico)||empty($latitud)||empty($longitud)||empty($contraseña)||empty($confi_contraseña)) {
-        header("Location: ?menu=error&&error=1");
+    $nombre = $_POST["nombre"];
+    $ape1 = $_POST["apellido1"];
+    $ape2 = $_POST["apellido2"];
+    $pais = $_POST["pais"];
+    $correo_electronico = $_POST["correo_electronico"];
+    $latitud = $_POST["latitud"];
+    $longitud = $_POST["longitud"];
+    $ubicacion = $latitud . " " . $longitud;
+    $contraseña = $_POST["contraseña"];
+    $confi_contraseña = $_POST["confi_contraseña"];
+
+    //img encode
+    $imagen = file_get_contents($_FILES['foto']['tmp_name']);
+    $path = $_FILES['foto']['tmp_name'];
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $img = 'data:image/' . $type . ';base64,' . base64_encode($imagen);
+
+    $indicativo = Metodos::creaIndicativo($pais, $nombre, $ape1, $ape2);
+
+    if (empty($nombre) || empty($ape1) || empty($correo_electronico) || empty($latitud) || empty($longitud) || empty($contraseña) || empty($confi_contraseña) || $pais == "NULL") {
+        echo "hola";
+        echo '  <script type="text/javascript">
+                    document.querySelectorAll(".errorFill").forEach(errorFill => {
+                    errorFill.style.display = "BLOCK"
+            });
+                </script>
+            ';
+    } else if ($contraseña != $confi_contraseña) {
+        echo '<script type="text/javascript">errorDiffPass();</script>';
+    } else if (strlen($contraseña) < 8) {
+        echo '<script type="text/javascript">errorSmallPass();</script>';
+    } else {
+        $usuario = new User($nombre, $ape1, $ape2, $pais, $correo_electronico, $contraseña, "User", $ubicacion, $img, $indicativo);
+        var_dump($usuario);
     }
 }
 ?>
@@ -33,19 +53,24 @@ if (isset($_POST["regis"])) {
         <h1>Crear una cuenta</h1>
         <hr /><br>
         <p class="text-registro">¡Únete a una de nuestras sedes!</p>
-        <center><img class="fotologin" src="../../Helpers/Media/fotoregistro.jpg"></center>
+        <center><img class="fotologin" src="Helpers/Media/fotoregistro.jpg"></center>
         <form class="registro" action="" method="post" enctype="multipart/form-data">
             <label for="nombre">Nombre *</label><br>
             <input type="text" name="nombre" id="nombre" placeholder="Escriba su nombre">
+            <p class="errorFill">Este campo es obligatorio.</p>
             <br><br>
             <label for="apellido1">1er Apellido *</label><br>
             <input type="text" name="apellido1" id="apellido1" placeholder="Escriba su 1er apellido">
+            <div class="errorFill">Este campo es obligatorio.</div>
             <br><br>
             <label for="apellido2">2do Apellido</label><br>
             <input type="text" name="apellido2" id="apellido2" placeholder="Escriba su 2do apellido">
             <br><br>
             <label for="pais">Nacionalidad *</label><br>
             <select name="pais">
+                <option value="NULL" selected>
+                    <------------Selecciona un país------------>
+                </option>
                 <option value="AF">Afganistán</option>
                 <option value="AL">Albania</option>
                 <option value="DE">Alemania</option>
@@ -110,7 +135,7 @@ if (isset($_POST["regis"])) {
                 <option value="AE">Emiratos Árabes Unidos</option>
                 <option value="ER">Eritrea</option>
                 <option value="SI">Eslovenia</option>
-                <option value="ES" selected>España</option>
+                <option value="ES">España</option>
                 <option value="US">Estados Unidos</option>
                 <option value="EE">Estonia</option>
                 <option value="ET">Etiopía</option>
@@ -281,27 +306,37 @@ if (isset($_POST["regis"])) {
                 <option value="ZM">Zambia</option>
                 <option value="ZW">Zimbabue</option>
             </select>
+            <div class="errorFill">Este campo es obligatorio.</div>
             <br><br>
             <label for="correo_electronico">Correo electrónico *</label><br>
             <input type="text" name="correo_electronico" id="correo_electronico" placeholder="Escriba su correo electrónico">
+            <div class="errorFill">Este campo es obligatorio.</div>
             <p class="advice">Se necesitará para los concursos</p>
             <br>
             <label for="ubicacion">Ubicación GPS *</label><br>
             <input type="text" name="latitud" id="latitud" placeholder="Escriba la latitud">
+            <br><br>
             <input type="text" name="longitud" id="longitud" placeholder="Escriba la longitud">
-            <p class="advice">Se necesitará para determinar desde donde realizas los concursos</p>
+            <div class="errorFill">Este campo es obligatorio.</div>
+            <p class="advice">Se necesitará para determinar desde donde realizas los concursos</p><br>
             <label for="foto">Foto *</label><br>
             <input type="file" name="foto" id="foto" accept="image/png, image/jpeg">
+            <div class="errorFill">Este campo es obligatorio.</div>
             <br><br>
             <label for="contraseña">Contraseña *</label><br>
             <input type="password" name="contraseña" id="contraseña" placeholder="Escriba una contraseña">
-            <p class="advice">Se recomienda utilizar una contraseña única para cada sitio web<p>
-            <br>
-            <label for="confi_contraseña">Confirmar contraseña *</label><br>
-            <input type="password" name="confi_contraseña" id="confi_contraseña" placeholder="Escriba de nuevo la contraseña">
+            <div class="errorFill">Este campo es obligatorio.</div>
+            <div class="errorDiffPass">Las contraseñas no coinciden. </div>
+            <div class="errorSmallPass">La contraseña debe ser de al menos 8 caracteres.</div>
+            <p class="advice">Se recomienda utilizar una contraseña única para cada sitio web
+            <p>
+                <br>
+                <label for="confi_contraseña">Confirmar contraseña *</label><br>
+                <input type="password" name="confi_contraseña" id="confi_contraseña" placeholder="Escriba de nuevo la contraseña">
+            <div class="errorFill">Este campo es obligatorio.</div>
             <br><br><br>
-            
-            <input class="regis" type="submit" name="regis" value="REGISTRARSE">
+
+            <input class="regis" type="submit" name="regis" value="REGÍSTRATE">
             <p class="advice">* Campos obligatorios</p>
         </form>
     </div>

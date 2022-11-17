@@ -1,6 +1,6 @@
 <?php
 $error=[$_GET["error"]];
-$errores[] = "La contraseña no coincide.";
+$errores[] = "La contraseña de verificación no coincide. Asegúrese de escribir la misma en ambos campos antes de continuar.";
 $errores[] = "Alguno de los campos obligatorios no está relleno, por favor compruébelos antes de continuar.";
 $errores[] = "El archivo subido debe ser del tipo JPG, JPEG o PNG. ";
 ?>
@@ -20,7 +20,7 @@ $errores[] = "El archivo subido debe ser del tipo JPG, JPEG o PNG. ";
         <button class="volver" name="volver" id="volver" onclick="window.location.href='?menu=registro'";?>VOLVER AL REGISTRO</button>
     </div>
     <div class="foto-lateral-error">
-    <img src="Media/foto-error.jpg"/>
+        <img class="foto-error" src="../../Helpers/Media/foto-error.png">
     </div>
 </body>
 </html>

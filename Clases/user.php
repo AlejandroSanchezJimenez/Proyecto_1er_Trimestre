@@ -9,9 +9,10 @@ class User {
     private $rol;
     private $ubicacion;
     private $foto;
+    private $indicativo;
 
     /*CONSTRUCTORES*/
-    public function __construct($nombre,$ape1,$ape2,$nacionalidad,$correo_electronico,$contraseña,$rol,$ubicacion,$foto = 0)
+    public function __construct($nombre,$ape1,$ape2,$nacionalidad,$correo_electronico,$contraseña,$rol,$ubicacion,$foto,$indicativo = 0)
     {
         $this->nombre=$nombre;
         $this->ape1=$ape1;
@@ -22,6 +23,7 @@ class User {
         $this->rol=$rol;
         $this->ubicacion=$ubicacion;
         $this->foto=$foto;
+        $this->indicativo=$indicativo;
     }
 
     /*GETTERS Y SETTERS*/
@@ -88,6 +90,13 @@ class User {
         $this->foto = $foto;
     }
 
+    public function getIndicativo() {
+        return $this->indicativo;
+    }
+    public function setIndicativo($indicativo) {
+        $this->nombre = $indicativo;
+    }
+
     /*MUESTRAINFO*/
     public function muestra_info() {
         $info= "<h1>INFORMACIÓN DEL USUARIO</h1>";
@@ -100,6 +109,9 @@ class User {
         $info= "<br/> Rol: ".$this->rol;
         $info= "<br/> Ubicación: ".$this->ubicacion;
         $info= "<br/> Foto: ".$this->foto;
+        $info= "<br/> Indicativo: ".$this->indicativo;
+
+        return $info;
     }
 }
 ?>

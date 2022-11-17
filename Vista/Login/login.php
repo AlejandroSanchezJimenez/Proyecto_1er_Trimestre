@@ -28,7 +28,7 @@
         <br><br>
         <p>SI TODAVÍA NO TIENES UNA CUENTA DE USUARIO DE RADIO-ASAJI.COM UTILIZA ESTA OPCIÓN PARA ACCEDER AL FORMULARIO DE REGISTRO. <br><br> TE SOLICITAREMOS LA INFORMACIÓN IMPRESCINDIBLE PARA PODER PARTICIPAR EN CONCURSOS.</p>
         <br><br>
-        <input class="accedeRegis" type="submit" name="Guardar" value="REGISTRARSE" onclick="window.location.href='?menu=registro'">
+        <input class="accedeRegis" type="submit" name="Guardar" value="REGÍSTRATE" onclick="window.location.href='?menu=registro'">
     </div>
 </body>
 </html>

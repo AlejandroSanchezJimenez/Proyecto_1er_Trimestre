@@ -139,7 +139,7 @@ header {
 }
 
 #footer {
-    position: absolute;
+    position:absolute;
     bottom: 0;
     width: 100%;
     height: 50px;
@@ -163,6 +163,7 @@ h1 {
 }
 
 input, .volver {
+    border-color: #000;
     width: 260px;
     height: 30px;
 }
@@ -212,6 +213,9 @@ select {
     width: 500px;
     float: left
 }
+.regis, .iniciaSesion, .accedeRegis, .volver {
+    font-weight: bold;
+}
 .regis:hover, .iniciaSesion:hover, .accedeRegis:hover, .volver:hover {
     background-color: grey;
     cursor: pointer;
@@ -231,11 +235,29 @@ select {
 }
 
 .exponeMensaje {
-    font-size: xx-large;
-    width: 500px;
+    position: relative;
+    font-size: 1.7vw;
     padding-top: 100px;
+    width: 500px;
+    float: left;
 }
 
 .foto-lateral-error {
-    float: right;
+    padding-top: 3% ;
+    float: left;
+    position: relative;
+}
+.foto-error {
+    width: 300px;
+    height: 300px;
+}
+
+.divregistro {
+    height: auto;
+    width: auto;
+}
+
+.errorFill, .errorDiffPass, .errorSmallPass {
+    display: none;
+    color: red;
 }

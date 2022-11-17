@@ -1,33 +1,33 @@
 <?php
 if (isset($_GET['menu'])) {
     if ($_GET['menu'] == "inicio") {
-        require_once '../../index.php';
+        require_once 'index.php';
     }
     if ($_GET['menu'] == "login") {
-        require_once '../Login/login.php';
+        require_once 'Vista/Login/login.php';
+    }
+    if ($_GET['menu'] == "registro") {
+        require_once 'Vista/Login/registro.php';
+     
     }
     if ($_GET['menu'] == "concursos") {
-        require_once '../Mantenimiento/concursos.php';
+        require_once 'Vista/Mantenimiento/concursos.php';
      
     }
     if ($_GET['menu'] == "quienessomos") {
-        require_once '../Mantenimiento/quienessomos.php';
+        require_once 'Vista/Mantenimiento/quienessomos.php';
      
     }
     if ($_GET['menu'] == "foro") {
-        require_once '../Mantenimiento/foro.php';
+        require_once 'Vista/Mantenimiento/foro.php';
      
     }
     if ($_GET['menu'] == "perfil") {
-        require_once '../Mantenimiento/perfil.php';
+        require_once 'Vista/Mantenimiento/perfil.php';
      
-    }   
-    if ($_GET['menu'] == "registro") {
-        require_once '../Login/registro.php';
-     
-    } 
+    }    
     if ($_GET['menu'] == "error") {
-        require_once '../../Helpers/GEP.php';
+        require_once 'Helpers/GEP.php';
      
     }  
 }
