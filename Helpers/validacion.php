@@ -16,16 +16,53 @@ class Validacion
      * @param [type] $campo
      * @return boolean
      */ 
-    public function Requerido($campo)
+    public static function Requerido(array $campo)
     {
-        if(!isset($_POST[$campo]) || empty($_POST[$campo]))
-        {
-            $this->errores[$campo]="El campo $campo no puede estar vacio";
+        for ($i=0; $i < count($campo); $i++) {
+            if(empty($_POST[$campo[$i]]))
+            {
+                echo "falta $campo[$i]";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function validaFoto($foto)
+    {
+        if ($_FILES[$foto]['size'] !== 0) {
+            return true;
+        }
+        else {
+            echo "foto mal";
+            return false;
+        }
+    }
+
+    public static function validaContraseña($campo1,$campo2)
+    {
+        if ($_POST[$campo1]!=$_POST[$campo2]) {
+            echo "contraseña distinta";
+            return false;
+        }
+        if (strlen($_POST[$campo1]) < 8) {
+            echo "contraseña pekeña";
             return false;
         }
         return true;
     }
 
+    public static function validaTodo($foto,$campo1,$campo2,$email,$array) {
+        if (Validacion::validaFoto($foto) && Validacion::validaContraseña($campo1,$campo2) && Validacion::ValidaEmail($email) && Validacion::Requerido($array)) {
+            return true;
+        }
+        else {
+            Validacion::validaFoto($foto);
+            Validacion::validaContraseña($campo1,$campo2);
+            Validacion::ValidaEmail($email);
+            Validacion::Requerido($array);
+        }
+    }
     /**
      * Método que comprueba que el campo es un valor entero
      * y de manera opcional un rango de valores
@@ -72,11 +109,11 @@ class Validacion
      * @param [String] $campo
      * @return boolean
      */
-    public function Email($campo)
+    public static function ValidaEmail($campo)
     {
         if(!filter_var($_POST[$campo],FILTER_VALIDATE_EMAIL))
         {
-            $this->errores[$campo]="Debe ser un email válido";
+            echo "error email";
             return false; 
         }
         return true;

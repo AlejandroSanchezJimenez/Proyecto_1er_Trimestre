@@ -1,12 +1,12 @@
 <?php
 class Concurso {
-    private $nombre;
-    private $descripcion;
-    private $fecha_ini_ins;
-    private $fecha_fin_ins;
-    private $fecha_ini_con;
-    private $fecha_fin_con;
-    private $cartel;
+    public $nombre;
+    public $descripcion;
+    public $fecha_ini_ins;
+    public $fecha_fin_ins;
+    public $fecha_ini_con;
+    public $fecha_fin_con;
+    public $cartel;
 
     /*CONSTRUCTORES*/
     public function __construct($nombre,$descripcion,$fecha_ini_ins,$fecha_fin_ins,$fecha_ini_con,$fecha_fin_con,$cartel)

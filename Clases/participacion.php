@@ -1,5 +1,5 @@
 <?php
 class Participacion {
-    private $juez;
+    public bool $juez;
 }
 ?>

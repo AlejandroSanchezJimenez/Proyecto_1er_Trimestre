@@ -8,6 +8,7 @@
     <link href="Vista\Principal\CSS\layout.css" rel="stylesheet">
     <script src="Vista\Principal\JS\layout.js"></script>
     <link rel="shortcut icon" href="Helpers/Media/iconnegro.png">
+    <meta http-equiv="Cache-control" content="no-cache">
     <title>R-A Community</title>
 </head>
 

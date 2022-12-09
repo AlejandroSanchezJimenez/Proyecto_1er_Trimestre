@@ -1,18 +1,19 @@
 <?php
 class User {
-    private $nombre;
-    private $ape1;
-    private $ape2;
-    private $nacionalidad;
-    private $correo_electronico;
-    private $contraseña;
-    private $rol;
-    private $ubicacion;
-    private $foto;
-    private $indicativo;
+    public $nombre;
+    public $ape1;
+    public $ape2;
+    public $nacionalidad;
+    public $correo_electronico;
+    public $contraseña;
+    public $rol;
+    public $latitud;
+    public $longitud;
+    public $foto;
+    public $indicativo;
 
     /*CONSTRUCTORES*/
-    public function __construct($nombre,$ape1,$ape2,$nacionalidad,$correo_electronico,$contraseña,$rol,$ubicacion,$foto,$indicativo = 0)
+    public function __construct($nombre,$ape1,$ape2,$nacionalidad,$correo_electronico,$contraseña,$rol,$latitud,$longitud,$foto,$indicativo = 0)
     {
         $this->nombre=$nombre;
         $this->ape1=$ape1;
@@ -21,7 +22,8 @@ class User {
         $this->correo_electronico=$correo_electronico;
         $this->contraseña=$contraseña;
         $this->rol=$rol;
-        $this->ubicacion=$ubicacion;
+        $this->latitud=$latitud;
+        $this->longitud=$longitud;
         $this->foto=$foto;
         $this->indicativo=$indicativo;
     }
@@ -76,11 +78,18 @@ class User {
         $this->rol = $rol;
     }
 
-    public function getUbicacion() {
-        return $this->ubicacion;
+    public function getLatitud() {
+        return $this->latitud;
     }
-    public function setUbicacion($ubicacion) {
-        $this->ubicacion = $ubicacion;
+    public function setUbicacion($latitud) {
+        $this->latitud = $latitud;
+    }
+
+    public function getLongitud() {
+        return $this->longitud;
+    }
+    public function setLongitud($longitud) {
+        $this->longitud = $longitud;
     }
 
     public function getFoto() {
@@ -107,7 +116,8 @@ class User {
         $info= "<br/> Correo electrónico: ".$this->correo_electronico;
         $info= "<br/> Contraseña: ".$this->contraseña;
         $info= "<br/> Rol: ".$this->rol;
-        $info= "<br/> Ubicación: ".$this->ubicacion;
+        $info= "<br/> Latitud: ".$this->latitud;
+        $info= "<br/> Longitud: ".$this->longitud;
         $info= "<br/> Foto: ".$this->foto;
         $info= "<br/> Indicativo: ".$this->indicativo;
 

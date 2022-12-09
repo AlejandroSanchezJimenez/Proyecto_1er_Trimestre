@@ -1,40 +1,43 @@
 <?php
-class Session {
-
-    public static function iniciar ()
+class Session
+{
+ 
+    function __construct()
     {
         session_start();
     }
-
-    public static function leer (string $clave)
+ 
+    static function setAttribute($attribute, $value)
     {
-        return $_SESSION[$clave];
-    }
-
-    public static function existe (string $clave)
-    {
-        if (isset($clave)) {
-            return true;
-        }
-        else {
-            return false;
+        if (session_status() === PHP_SESSION_ACTIVE 
+            && is_string($attribute)) {
+            $_SESSION[$attribute] = $value;
         }
     }
-
-    public static function escribir ($clave,$valor)
+ 
+    static function getAttribute($attribute)
     {
-        if (session::existe($clave)) {
-            $_SESSION[$clave]=$valor;
-            return true;
+        if (session_status() === PHP_SESSION_ACTIVE 
+            && is_string($attribute) 
+            && isset($_SESSION[$attribute])) {
+            return $_SESSION[$attribute];
         }
-        else {
-            return false;
+        return null;
+    }
+ 
+    static function deleteAttribute($attribute)
+    {
+        if (session_status() === PHP_SESSION_ACTIVE 
+            && is_string($attribute) 
+            && isset($_SESSION[$attribute])) {
+            unset($_SESSION[$attribute]);
         }
     }
-
-    public static function eliminar ($clave)
+ 
+    static function destroySession()
     {
-        unset($_SESSION[$clave]);
+        session_destroy();
     }
 }
+ 
 ?>

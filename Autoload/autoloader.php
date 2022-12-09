@@ -7,8 +7,11 @@ function mi_autocargador($clase) {
     else if (file_exists($root.'/Proyecto_Radioaficionados/Clases/'.$clase.'.php')) {
         include $root.'/Proyecto_Radioaficionados/Clases/' . $clase . '.php';
     }
-    else if (file_exists($root.'/modelo/'.$clase.'.php')) {
-        include $root.'/proyecto_objetos/modelo/' . $clase . '.php';
+    else if (file_exists($root.'/Proyecto_Radioaficionados/GBD/'.$clase.'.php')) {
+        include $root.'/Proyecto_Radioaficionados/GBD/' . $clase . '.php';
+    }
+    else if (file_exists($root.'/Proyecto_Radioaficionados/GBD/Repositorios/'.$clase.'.php')) {
+        include $root.'/Proyecto_Radioaficionados/GBD/Repositorios/' . $clase . '.php';
     }
 }
 
