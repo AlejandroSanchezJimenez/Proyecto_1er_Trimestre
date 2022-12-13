@@ -4,6 +4,7 @@ if (isset($_SESSION['Correo'])) {
         $correo = Session::getAttribute('Correo');
         repositorioUser::updatePassbyCorreo(Conexion::getConnection(), $correo, $_POST["contraseña"]);
         Session::destroySession();
+        echo '<script>alert("Contraseña restablecida con éxito")</script>';
     }
 }
 ?>

@@ -24,7 +24,7 @@ if (isset($_GET['page']) && $_GET['page'] > 1){
         <br><br><br>
         <table id="tabla">
             <tr>
-                <th colspan='8'>
+                <th colspan='11'>
                     <h2>Listado de concursos</h2>
                 </th>
             </tr>
@@ -35,13 +35,16 @@ if (isset($_GET['page']) && $_GET['page'] > 1){
                 <th id="fecha_fin_ins">Fecha de fin de inscripción</th>
                 <th id="fecha_ini_con">Fecha de inicio del concurso</th>
                 <th id="fecha_fin_con">Fecha de fin del concurso</th>
+                <th id="premio">Premio</th>
                 <th id="cartel">Cartel</th>
+                <th id="participantes">Participantes</th>
+                <th id="finalizar">Finalizar concurso</th>
                 <th id="accion">Acción</th>
             </tr>
             <?php
-            $pagina = repositorioConcurso::getConcurPage(Conexion::getConnection(), $page, 10);
+            $pagina = repositorioConcurso::getConcurPageAll(Conexion::getConnection(), $page, 10);
             if (empty($pagina)) {
-                echo "<tr><td colspan='8'>No hay concursos en este momento</td></tr>";
+                echo "<tr><td colspan='11'>No hay concursos en este momento</td></tr>";
             } else {
                 foreach ($pagina as $value) {
                     echo "<tr>
@@ -51,15 +54,18 @@ if (isset($_GET['page']) && $_GET['page'] > 1){
                             <td>$value[3]</td>
                             <td>$value[4]</td>
                             <td>$value[5]</td>
-                            <td><img src='<?php echo $value[6];  ?>' /></td>
-                            <td><a href='Edita.php?id=" ."$value[0]&page=$page'>✏️</a><a href='Borrar.php?id=" ."$value[0]&page=$page'>🗑️</a></td>
+                            <td>$value[6]</td>
+                            <td><img src='<?php echo $value[7];  ?>' /></td>
+                            <td><a href='?menu=listadoParticipantes&nombreConcur="."$value[0]'>VER</a></td>
+                            <td><a onclick='return ConfirmFinalizar();' href='?menu=calculaPremios&nombreConcur="."$value[0]'>✓</a></td>
+                            <td><a href='?menu=editaConcur&nombreConcur="."$value[0]'>✏️</a><a onclick='return ConfirmDelete()'' href='?menu=borra&nombre=" ."$value[0]'>🗑️</a></td>
                         </tr>";
                 }
             }
             ?>
             </tr>
             <tr>
-                <td colspan="8">
+                <td colspan="11">
                     <button id="anterior" page=<?php echo "$page"; ?>>◀</button>
                     Página: <?php echo $page ?>
                     <button id="siguiente" page=<?php echo "$page"; ?>>▶</button>

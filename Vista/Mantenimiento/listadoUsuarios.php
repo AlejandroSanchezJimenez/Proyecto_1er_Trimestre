@@ -59,7 +59,7 @@ if (isset($_GET['page']) && $_GET['page'] > 1){
                             <td>$value[6]</td>
                             <td>$value[7], $value[8]</td>
                             <td><img src='<?php echo $value[9];  ?>' ></td>
-                            <td><a href='Edita.php?id=" ."$value[0]&page=$page'>✏️</a><a href='Borrar.php?id=" ."$value[0]&page=$page'>🗑️</a></td>
+                            <td><a href='?menu=perfil&indicativo="."$value[10]'>✏️</a><a onclick='return ConfirmDelete()'' href='?menu=borra&indicativo=" ."$value[10]'>🗑️</a></td>
                         </tr>";
                 }
             }

@@ -21,7 +21,7 @@ class Validacion
         for ($i=0; $i < count($campo); $i++) {
             if(empty($_POST[$campo[$i]]))
             {
-                echo "falta $campo[$i]";
+                echo "<script>alert('Falta el '$campo[i]' por rellenar')</script>";
                 return false;
             }
         }
@@ -34,7 +34,7 @@ class Validacion
             return true;
         }
         else {
-            echo "foto mal";
+            echo '<script>alert("Debe añadir una foto válida.")</script>';
             return false;
         }
     }
@@ -42,11 +42,11 @@ class Validacion
     public static function validaContraseña($campo1,$campo2)
     {
         if ($_POST[$campo1]!=$_POST[$campo2]) {
-            echo "contraseña distinta";
+            echo '<script>alert("La contraseña no coincide, compruébela por favor")</script>';
             return false;
         }
         if (strlen($_POST[$campo1]) < 8) {
-            echo "contraseña pekeña";
+            echo '<script>alert("La contraseña debe ser de al menos 8 caracteres.")</script>';
             return false;
         }
         return true;
@@ -113,7 +113,7 @@ class Validacion
     {
         if(!filter_var($_POST[$campo],FILTER_VALIDATE_EMAIL))
         {
-            echo "error email";
+            echo '<script>alert("Introduzca un email válido")</script>';
             return false; 
         }
         return true;

@@ -15,7 +15,7 @@ if (isset($_POST["regis"])) {
         repositorioUser::insertUser(Conexion::getConnection(), $usuario);
         //creamos la session y redirigimos a la página principal
         session_start();
-        Session::setAttribute("Indicativo", $indicativo);
+        $_SESSION['Indicativo'] = $_POST["indicativo"];
         header("Location: ?menu=inicio");
     } else {
         echo "error";

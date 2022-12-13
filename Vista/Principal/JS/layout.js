@@ -13,6 +13,11 @@ window.onload = function () {
   var contraseña = document.getElementById("contraseña");
 
 
+  contraseña.addEventListener( 'keydown', function( event ) {
+    var caps = event.getModifierState && event.getModifierState( 'CapsLock' );
+    console.log( caps ); // true when you press the keyboard CapsLock key
+  });
+  
   fecha_ini_ins.min = new Date().toISOString().split("T")[0];
   fecha_fin_ins.min = new Date().toISOString().split("T")[0];
   fecha_ini_con.min = new Date().toISOString().split("T")[0];
@@ -60,5 +65,38 @@ function showCheckboxes() {
   } else {
     checkboxes.style.display = "none";
     expanded = false;
+  }
+}
+
+function ConfirmDelete() {
+  var respuesta = confirm("¿Está usted seguro de que desea eliminar esta tupla?");
+
+  if (respuesta == true){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function ConfirmFinalizar() {
+  var respuesta = confirm("¿Está usted seguro de que desea finalizar el concurso?");
+
+  if (respuesta == true){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function ConfirmValida() {
+  var respuesta = confirm("¿Está usted seguro de que desea validar esta tupla?");
+
+  if (respuesta == true){
+    return true;
+  }
+  else {
+    return false;
   }
 }

@@ -1,15 +1,15 @@
 <?php
 if (isset($_POST['añadeConcur'])) {
-    $nombre=$_POST["nombre"];
+    $nombre = $_POST["nombre"];
     $idConcurso = repositorioConcurso::getAnybyNombre(Conexion::getConnection(), 'idConcurso', $nombre);
 
     $imagen = file_get_contents($_FILES['cartel']['tmp_name']);
     $path = $_FILES['cartel']['tmp_name'];
     $type = pathinfo($path, PATHINFO_EXTENSION);
     $img = 'data:image/' . $type . ';base64,' . base64_encode($imagen);
-    $concurso = new Concurso($_POST['nombre'], $_POST['descripcion'], $_POST['fecha-ini-ins'], $_POST['fecha-fin-ins'], $_POST['fecha-ini-con'], $_POST['fecha-fin-con'], $img);
+    $concurso = new Concurso($_POST['nombre'], $_POST['descripcion'], $_POST['fecha-ini-ins'], $_POST['fecha-fin-ins'], $_POST['fecha-ini-con'], $_POST['fecha-fin-con'], $img, $_POST['premio']);
     if (repositorioConcurso::insertConcurso(Conexion::getConnection(), $concurso)) {
-        $nombre=$_POST["nombre"];
+        $nombre = $_POST["nombre"];
         $idConcurso = repositorioConcurso::getAnybyNombre(Conexion::getConnection(), 'idConcurso', $nombre);
     }
 
@@ -18,13 +18,14 @@ if (isset($_POST['añadeConcur'])) {
         repositorioParticipacion::insertParticipacion(Conexion::getConnection(), $idUser[0], $idConcurso[0], true);
     }
     foreach ($_POST['banda'] as $selectedOption) {
-        $idbanda = repositorioBanda::getIdBanda(Conexion::getConnection(),$selectedOption);
-        repositorioConcursoBanda::insertConcursoBanda(Conexion::getConnection(),$idConcurso[0],$idbanda[0]);
+        $idbanda = repositorioBanda::getIdBanda(Conexion::getConnection(), $selectedOption);
+        repositorioConcursoBanda::insertConcursoBanda(Conexion::getConnection(), $idConcurso[0], $idbanda[0]);
     }
     foreach ($_POST['modo'] as $selectedOption) {
-        $idModo = repositorioModo::getIdModo(Conexion::getConnection(),$selectedOption);
-        repositorioConcursoModo::insertConcursoModo(Conexion::getConnection(),$idConcurso[0],$idModo[0]);
+        $idModo = repositorioModo::getIdModo(Conexion::getConnection(), $selectedOption);
+        repositorioConcursoModo::insertConcursoModo(Conexion::getConnection(), $idConcurso[0], $idModo[0]);
     }
+    echo '<script>alert("Concurso creado con éxito")</script>';
 }
 ?>
 
@@ -129,6 +130,12 @@ if (isset($_POST['añadeConcur'])) {
                             }
                             ?>
                         </select>
+                    </div>
+                </div>
+                <div class="agrupaForm-Concur">
+                    <div class="agrupaCell-Concur">
+                        <label class="concurso" for="premio">Premio:</label><br>
+                        <input type="text" name="premio" id="premio" class="premio">
                     </div>
                 </div>
                 <br><br><br><br>

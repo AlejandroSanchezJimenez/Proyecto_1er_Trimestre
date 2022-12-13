@@ -7,6 +7,12 @@ class repositorioUser
         return $con->exec($query);
     }
 
+    static function deleteUserByIndicativo(PDO $con, $indicativo)
+    {
+        $query = "DELETE FROM user WHERE Indicativo = '$indicativo'";
+        return $con->exec($query);
+    }
+
     static function getAnybyIndicativo(PDO $con, $campo, $indicativo, int $mode = PDO::FETCH_BOTH)
     {
         $query = "SELECT $campo FROM user WHERE indicativo = '$indicativo'";
@@ -46,7 +52,7 @@ class repositorioUser
                 $query = $query . $arrayCol[$i - 1] . " = '" . $arrayDatos[$i - 1] . "' ";
             }
         }
-        $query = $query . "WHERE indicativo = $indicativo";
+        $query = $query . "WHERE indicativo = '$indicativo'";
         return $con->exec($query);
     }
 
@@ -72,6 +78,16 @@ class repositorioUser
     ) {
         $PIni = ($NPagina - 1) * $NLineas + 1;
         $query = "SELECT Nombre,Ape1,Ape2,Nacionalidad,Correo_electronico,Contraseña,Rol,x(ubicacion_gps),y(ubicacion_gps),foto,indicativo FROM user WHERE idUser >= $PIni ORDER BY idUser LIMIT $NLineas";
+        $resul = $con->query($query);
+        return $resul->fetchAll($mode);
+    }
+
+    static function getUserPageByConcurso(
+        PDO $con,
+        $nombreConcur,
+        int $mode = PDO::FETCH_BOTH
+    ) {
+        $query = "SELECT user.Nombre,Ape1,Ape2,Nacionalidad,Correo_electronico,Contraseña,Rol,x(ubicacion_gps),y(ubicacion_gps),foto,indicativo,juez from user left join participacion on user.idUser=participacion.User_idUser join concurso on participacion.Concurso_idConcurso=concurso.idConcurso where concurso.nombre='$nombreConcur' group by idUser;";
         $resul = $con->query($query);
         return $resul->fetchAll($mode);
     }

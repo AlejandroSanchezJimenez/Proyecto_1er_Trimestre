@@ -4,7 +4,26 @@ if (isset($_GET['page']) && $_GET['page'] > 1) {
 } else {
     $page = 1;
 }
-$pagina = repositorioConcurso::getConcurPage(Conexion::getConnection(), $page, 10);
+
+if (isset($_POST['participaConcurso'])) {
+    if (isset($_SESSION['Indicativo'])) {
+        $idConcurso = repositorioConcurso::getAnybyNombre(Conexion::getConnection(), 'idConcurso', $_GET["nombreconcur"]);
+        $idUser = repositorioUser::getAnybyIndicativo(Conexion::getConnection(), 'idUser', Session::getAttribute("Indicativo"));
+        $juez = repositorioParticipacion::isJuez(Conexion::getConnection(),$idConcurso[0],$idUser[0]);
+        if (empty($juez)){
+            repositorioParticipacion::insertParticipacion(Conexion::getConnection(), $idUser[0], $idConcurso[0], false);
+            echo '<script>alert("Te has inscrito correctamente")</script>';
+        }
+        else if ($juez[0]==1) {
+            echo '<script>alert("Eres juez, no puedes participar en este concurso")</script>';
+        }
+        else if ($juez[0]==0) {
+            echo '<script>alert("Ya estás participando en este concurso")</script>';
+        }
+    } else {
+        header("Location: ?menu=login");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +36,7 @@ $pagina = repositorioConcurso::getConcurPage(Conexion::getConnection(), $page, 1
     <title>Document</title>
 </head>
 
-<body>
+<body class="concursos">
     <?php
     $pagina = repositorioConcurso::getConcurPage(Conexion::getConnection(), $page, 10);
     if (empty($pagina)) {
@@ -25,34 +44,36 @@ $pagina = repositorioConcurso::getConcurPage(Conexion::getConnection(), $page, 1
     } else {
         foreach ($pagina as $value) {
     ?>
-            <div class="agrupaForm-Concur-show">
-                <div class="agrupaCell-Concur-show">
-                    <strong class="titulo">Concurso</strong>
-                    <br><br>
-                    <?php echo $value[0];  ?>
+
+            <div class="containerConcur">
+                <div class="fondoConcurContainer">
+                    <img class="foto_concur" src="Helpers\Media\lineas-de-colores_3840x2160_xtrafondos.com.jpg">
                 </div>
-                <div class="agrupaCell-Concur-show">
-                    <strong class="titulo">Descripción</strong>
-                    <br><br>
+                <div class="nombreConcur">
+                    <?php echo $value[0];  ?>
+                    <div class="premioConcur">
+                        <p>Premio: <?php echo $value[6];  ?></p>
+                    </div>
+                </div>
+                <div class="descriConcur">
                     <?php echo $value[1];  ?>
                 </div>
-                <div class="agrupaCell-Concur-show">
-                    <strong class="titulo">Cartel</strong>
-                    <br><br>
-                    <img src='<?php echo $value[6];  ?>' />
+                <div class="fechaConcur">
+                    <p>Empieza el <strong><u><?php echo $value[4]; ?></u></strong> y termina el <strong><u><?php echo $value[5];  ?></u></strong>
                 </div>
-                <div class="agrupaCell-Concur-show">
-                    <strong class="titulo">Fin inscripción</strong>
-                    <br><br>
-                    <?php echo $value[3];  ?>
+                <div class="botonConcur">
+                    <form method="post" action="?menu=concursos&nombreconcur=<?php echo $value[0]?>">
+                        <input type="submit" class="participaConcurso" name="participaConcurso" id="participaConcurso" value="Participar">
+                    </form>
                 </div>
-                <div class="agrupaCell-Concur-show">
-                    <strong class="titulo">Fecha concurso</strong>
-                    <br><br>
-                    <?php echo $value[4]."/<br>".$value[5];  ?>
-                </div>
-                <div class="agrupaCell-Concur-show">
-                    <button class="participaConcurso">Participar</button>
+                <div class="finInsConcur">
+                    <p>Termina en
+                        <?php
+                        $date1 = new DateTime();
+                        $date2 = new DateTime("$value[3]");
+                        $interval = $date2->diff($date1);
+                        echo $interval->days . " días " . $interval->h . " horas ";
+                        ?>
                 </div>
             </div>
     <?php

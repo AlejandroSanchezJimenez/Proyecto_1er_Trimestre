@@ -13,6 +13,9 @@ function mi_autocargador($clase) {
     else if (file_exists($root.'/Proyecto_Radioaficionados/GBD/Repositorios/'.$clase.'.php')) {
         include $root.'/Proyecto_Radioaficionados/GBD/Repositorios/' . $clase . '.php';
     }
+    else if (file_exists($root.'/Proyecto_Radioaficionados/Vista/Otros/'.$clase.'.php')) {
+        include $root.'/Proyecto_Radioaficionados/Vista/Otros/' . $clase . '.php';
+    }
 }
 
 spl_autoload_register('mi_autocargador');

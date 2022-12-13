@@ -7,9 +7,10 @@ class Concurso {
     public $fecha_ini_con;
     public $fecha_fin_con;
     public $cartel;
+    public $premio;
 
     /*CONSTRUCTORES*/
-    public function __construct($nombre,$descripcion,$fecha_ini_ins,$fecha_fin_ins,$fecha_ini_con,$fecha_fin_con,$cartel)
+    public function __construct($nombre,$descripcion,$fecha_ini_ins,$fecha_fin_ins,$fecha_ini_con,$fecha_fin_con,$cartel,$premio)
     {
         $this->nombre=$nombre;
         $this->descripcion=$descripcion;
@@ -18,6 +19,7 @@ class Concurso {
         $this->fecha_ini_con=$fecha_ini_con;
         $this->fecha_fin_con=$fecha_fin_con;
         $this->cartel=$cartel;
+        $this->premio=$premio;
     }
 
     /*GETTERS Y SETTERS*/
@@ -70,6 +72,13 @@ class Concurso {
         $this->cartel = $cartel;
     }
 
+    public function getPremio() {
+        return $this->nombre;
+    }
+    public function setPremio($premio) {
+        $this->premio = $premio;
+    }
+
     /*MUESTRAINFO*/
     public function muestra_info() {
         $info= "<h1>INFORMACIÓN DEL CONCURSO</h1>";
@@ -80,6 +89,7 @@ class Concurso {
         $info= "<br/> Fecha que empieza el periodo de concurso: ".$this->fecha_ini_con;
         $info= "<br/> Fecha que finaliza el periodo de concurso: ".$this->fecha_fin_con;
         $info= "<br/> Cartel: ".$this->cartel;
+        $info= "<br/> Premio: ".$this->premio;
     }
 }
 ?>

@@ -1,36 +1,48 @@
 <?php
-if(!isset($_SESSION['Indicativo'])) {
+if (!isset($_SESSION['Indicativo'])) {
     header("Location: ?menu=login");
-}
-else {
-    $indicativo=Session::getAttribute('Indicativo');
-    $array=repositorioUser::getUserByIndicativo(Conexion::getConnection(),$indicativo);
+} else {
+    if (isset($_GET["indicativo"])) {
+        $array = repositorioUser::getUserByIndicativo(Conexion::getConnection(), $_GET["indicativo"]);
+    } else {
+        $indicativo = Session::getAttribute('Indicativo');
+        $array = repositorioUser::getUserByIndicativo(Conexion::getConnection(), $indicativo);
+    }
 
     //definimos dos array, uno que guarda los campos que vamos a cambiar, y otro con los datos nuevos
-    $campos=array();
-    $valoresnuevos=array();
+    $campos = array();
+    $valoresnuevos = array();
 
     //comprobamos que los campos no esten vacios, y vamos mirando uno a uno si el valor nuevo es 
     //distinto al anterior, de ser así los añadimos a la lista. Finalmente realizamos el update
-    // if (isset($_FILES['foto'])&&!empty($nombre)&&!empty($apellido)) {
-    //     if (strcmp($nombre,$resul[0]!==0)) {
-    //         $campos[]="nombre";
-    //         $valoresnuevos[]="$nombre";
-    //     }
-    //     if (strcmp($apellido,$resul[1]!==0)) {
-    //         $campos[]="apellido";
-    //         $valoresnuevos[]="$apellido";
-    //     }
-    //     if (strcmp($img,$resul[2]!==0)) {
-    //         $campos[]="foto";
-    //         $valoresnuevos[]="$img";
-    //     }
-    //     repositorioUser::updateUserByIndicativo(Conexion::getConnection(),$id,$campos,$valoresnuevos);
-    //     header("Location:http://localhost/AccesoBD-PHP/Vista/Edita.php?id=$id");
-    // }
-    // else {
-    //     header("Location: Error.php?error=1&page=$page");
-    // }
+    if (isset($_POST["guarda-cambios"])) {
+        if (strcmp($_POST["nombre"],$array[0]!==0)) {
+            $campos[]="nombre";
+            $valoresnuevos[]=$_POST["nombre"];
+        }
+        if (strcmp($_POST["ape1"],$array[1]!==0)) {
+            $campos[]="ape1";
+            $valoresnuevos[]=$_POST["ape1"];
+        }
+        if (strcmp($_POST["ape2"],$array[2]!==0)) {
+            $campos[]="ape2";
+            $valoresnuevos[]=$_POST["ape2"];
+        }
+        if (strcmp($_POST["ape2"],$array[3]!==0)) {
+            $campos[]="ape2";
+            $valoresnuevos[]=$_POST["ape2"];
+        }
+        if (strcmp($_POST["email"],$array[7]!==0)) {
+            $campos[]="Correo_electronico";
+            $valoresnuevos[]=$_POST["email"];
+        }
+        if (strcmp($_POST["contraseña"],$array[8]!==0)) {
+            $campos[]="Contraseña";
+            $valoresnuevos[]=$_POST["contraseña"];
+        }
+        repositorioUser::updateUserByIndicativo(Conexion::getConnection(),$array[0],$campos,$valoresnuevos);
+        header("Location:?menu=listadoUsers");
+    }
 }
 ?>
 
@@ -56,54 +68,51 @@ else {
         <form class="edita-perfil" action="" method="post" enctype="multipart/form-data">
             <div class="seccion-perfil">
                 <p class="titulo-seccion">Perfil</p>
-                <button class="habilita1">Cambiar</button>
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="indicativo">Indicativo</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="text" name="indicativo" id="indicativo" class="perfil" readonly value="<?php echo $array[0]?>">
+                <input type="text" name="indicativo" id="indicativo" class="perfil"  readonly value="<?php echo $array[0] ?>">
                 <hr />
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="nombre">Nombre</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="text" name="nombre" id="nombre" class="perfil" readonly value="<?php echo $array[1]?>">
+                <input type="text" name="nombre" id="nombre" class="perfil"  value="<?php echo $array[1] ?>">
                 <hr />
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="ape1">1er Apellido</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="text" name="ape1" id="ape1" class="perfil" readonly value="<?php echo $array[2]?>">
+                <input type="text" name="ape1" id="ape1" class="perfil"  value="<?php echo $array[2] ?>">
                 <hr />
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="ape2">2do Apellido</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="text" name="ape2" id="ape2" class="perfil" readonly value="<?php echo $array[3]?>">
+                <input type="text" name="ape2" id="ape2" class="perfil"  value="<?php echo $array[3] ?>">
                 <hr />
             </div>
             <div class="dato-perfil">
                 <label class="perfil" for="nacionalidad">Pais</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="text" name="nacionalidad" id="nacionalidad" readonly class="perfil"value="<?php echo $array[4]?>">
+                <input type="text" name="nacionalidad" id="nacionalidad" class="perfil" readonly value="<?php echo $array[4] ?>">
                 <hr />
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="ubicacion">Ubicación</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="text" name="ubicacion" id="ubicacion" readonly class="perfil" value="<?php echo $array[5].", ".$array[6]?>">
+                <input type="text" name="ubicacion" id="ubicacion"  class="perfil" readonly value="<?php echo $array[5] . ", " . $array[6] ?>">
                 <hr />
             </div>
             <div class="seccion-perfil">
                 <p class="titulo-seccion">Correo electrónico</p>
-                <button class="habilita2">Cambiar</button>
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="email">Correo electrónico</label>&nbsp&nbsp&nbsp&nbsp
-                <input type="email" name="email" id="email" class="perfil" readonly value="<?php echo $array[7]?>">
+                <input type="email" name="email" id="email" class="perfil" value="<?php echo $array[7] ?>">
                 <hr />
             </div>
             <div class="seccion-perfil">
                 <p class="titulo-seccion">Seguridad</p>
-                <button class="habilita3">Cambiar</button>
             </div>
             <div classs="dato-perfil">
                 <label class="perfil" for="contraseña">Contraseña</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <input type="password" name="contraseña" id="contraseña" readonly class="perfil" value="<?php echo $array[8]?>">
+                <input type="password" name="contraseña" id="contraseña" class="perfil" value="<?php echo $array[8] ?>">
                 <hr />
             </div>
             <br><br>
